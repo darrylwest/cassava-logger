@@ -13,12 +13,12 @@ const Version = "0.90.101"
 
 //log level, from low to high, more high means more serious
 const (
-	LevelTrace = iota
-	LevelDebug
-	LevelInfo
-	LevelWarn
-	LevelError
-	LevelFatal
+	TraceLevel = iota
+	DebugLevel
+	InfoLevel
+	WarnLevel
+	ErrorLevel
+	FatalLevel
 )
 
 const (
@@ -51,7 +51,7 @@ type Logger struct {
 func New(handler Handler, flag int) *Logger {
 	var l = new(Logger)
 
-	l.level = LevelInfo
+	l.level = InfoLevel
 	l.handler = handler
 
 	l.flag = flag
@@ -185,32 +185,32 @@ func (l *Logger) Output(callDepth int, level int, format string, v ...interface{
 
 //log with Trace level
 func (l *Logger) Trace(format string, v ...interface{}) {
-	l.Output(2, LevelTrace, format, v...)
+	l.Output(2, TraceLevel, format, v...)
 }
 
 //log with Debug level
 func (l *Logger) Debug(format string, v ...interface{}) {
-	l.Output(2, LevelDebug, format, v...)
+	l.Output(2, DebugLevel, format, v...)
 }
 
 //log with info level
 func (l *Logger) Info(format string, v ...interface{}) {
-	l.Output(2, LevelInfo, format, v...)
+	l.Output(2, InfoLevel, format, v...)
 }
 
 //log with warn level
 func (l *Logger) Warn(format string, v ...interface{}) {
-	l.Output(2, LevelWarn, format, v...)
+	l.Output(2, WarnLevel, format, v...)
 }
 
 //log with error level
 func (l *Logger) Error(format string, v ...interface{}) {
-	l.Output(2, LevelError, format, v...)
+	l.Output(2, ErrorLevel, format, v...)
 }
 
 //log with fatal level
 func (l *Logger) Fatal(format string, v ...interface{}) {
-	l.Output(2, LevelFatal, format, v...)
+	l.Output(2, FatalLevel, format, v...)
 }
 
 func SetLevel(level int) {
@@ -218,25 +218,25 @@ func SetLevel(level int) {
 }
 
 func Trace(format string, v ...interface{}) {
-	std.Output(2, LevelTrace, format, v...)
+	std.Output(2, TraceLevel, format, v...)
 }
 
 func Debug(format string, v ...interface{}) {
-	std.Output(2, LevelDebug, format, v...)
+	std.Output(2, DebugLevel, format, v...)
 }
 
 func Info(format string, v ...interface{}) {
-	std.Output(2, LevelInfo, format, v...)
+	std.Output(2, InfoLevel, format, v...)
 }
 
 func Warn(format string, v ...interface{}) {
-	std.Output(2, LevelWarn, format, v...)
+	std.Output(2, WarnLevel, format, v...)
 }
 
 func Error(format string, v ...interface{}) {
-	std.Output(2, LevelError, format, v...)
+	std.Output(2, ErrorLevel, format, v...)
 }
 
 func Fatal(format string, v ...interface{}) {
-	std.Output(2, LevelFatal, format, v...)
+	std.Output(2, FatalLevel, format, v...)
 }
