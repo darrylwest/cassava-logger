@@ -5,10 +5,10 @@ import (
     "net/http"
 )
 type MiddlewareLogger struct {
-    log Logger
+    log *Logger
 }
 
-func NewMiddlewareLogger(log Logger) *MiddlewareLogger {
+func NewMiddlewareLogger(log *Logger) *MiddlewareLogger {
     return &MiddlewareLogger{ log }
 }
 
