@@ -25,9 +25,9 @@ const (
 	Llevel             //[Trace|Debug|Info...]
 )
 
-var LevelName [6]string = [6]string{"Trace", "Debug", "Info", "Warn", "Error", "Fatal"}
+var LevelName [6]string = [6]string{"TRACE", "DEBUG", "INFO ", "WARN ", "ERROR", "FATAL"}
 
-const TimeFormat = "2006-01-02 15:04:05"
+const TimeFormat = "15:04:05.000"
 
 const maxBufPoolSize = 16
 
@@ -137,9 +137,15 @@ func (l *Logger) Output(callDepth int, level int, format string, v ...interface{
 
 	if l.flag&Ltime > 0 {
 		now := time.Now().Format(TimeFormat)
-		buf = append(buf, '[')
+		// buf = append(buf, '[')
 		buf = append(buf, now...)
-		buf = append(buf, "] "...)
+		buf = append(buf, " "...)
+	}
+
+	if l.flag&Llevel > 0 {
+		// buf = append(buf, '[')
+		buf = append(buf, LevelName[level]...)
+		buf = append(buf, " "...)
 	}
 
 	if l.flag&Lfile > 0 {
@@ -163,11 +169,6 @@ func (l *Logger) Output(callDepth int, level int, format string, v ...interface{
 		buf = append(buf, ' ')
 	}
 
-	if l.flag&Llevel > 0 {
-		buf = append(buf, '[')
-		buf = append(buf, LevelName[level]...)
-		buf = append(buf, "] "...)
-	}
 
 	s := fmt.Sprintf(format, v...)
 
