@@ -7,7 +7,7 @@ A log4j-like loggger with levels, multiple handlers and middleware implementatio
     import "github.com/darrylwest/cassava-logger/logger"
 
     // create a logger with specified handler
-    handler := logger.NewStreamHandler(os.Stdout)
+    handler,_ := logger.NewStreamHandler(os.Stdout)
     log := logger.NewLogger( handler )
 
     log.Debug("debug level log statement")
