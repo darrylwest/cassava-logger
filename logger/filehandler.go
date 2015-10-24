@@ -133,6 +133,10 @@ const (
 	WhenDay
 )
 
+func NewRotatingDayHandler(filename string) (*TimeRotatingFileHandler, error) {
+	return NewTimeRotatingFileHandler( filename, WhenDay, 1 )
+}
+
 func NewTimeRotatingFileHandler(baseName string, when int8, interval int) (*TimeRotatingFileHandler, error) {
 	dir := path.Dir(baseName)
 	os.Mkdir(dir, 0777)

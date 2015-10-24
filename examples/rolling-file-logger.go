@@ -9,7 +9,7 @@ import (
 func main() {
     fmt.Printf("Version: %s\n", logger.Version)
 
-    handler,_ := logger.NewTimeRotatingFileHandler( "./day-logger.out", logger.WhenDay, 1 )
+    handler,_ := logger.NewRotatingDayHandler( "./day-logger.out" )
     log := logger.NewLogger( handler )
 
     log.Debug("my debug message (suppressed)")
