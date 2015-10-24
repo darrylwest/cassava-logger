@@ -44,4 +44,4 @@ You will find an example similar to this in "examples".  The log's filename is c
 	
 
 - - -
-<em><small>Version 0.90.101 | darryl.west@raincitysoftware.com</small></em>
+<em><small>Version 0.90.102 | darryl.west@raincitysoftware.com</small></em>
