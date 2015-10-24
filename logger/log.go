@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const Version = "0.90.101"
+
 //log level, from low to high, more high means more serious
 const (
 	LevelTrace = iota
