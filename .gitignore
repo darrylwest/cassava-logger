@@ -1,4 +1,5 @@
 DS_*
 *.out
+*.log
 build
 dist
