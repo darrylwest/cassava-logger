@@ -171,7 +171,6 @@ func (l *Logger) Output(callDepth int, level int, format string, v ...interface{
 		buf = append(buf, ' ')
 	}
 
-
 	s := fmt.Sprintf(format, v...)
 
 	buf = append(buf, s...)

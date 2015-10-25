@@ -178,9 +178,9 @@ func NewTimeRotatingFileHandler(baseName string, when int8, interval int) (*Time
 	fInfo, _ := h.fd.Stat()
 	switch when {
 	case WhenHour: // roll at the top of the hour
-		h.rolloverAt = time.Now().Truncate( time.Hour ).Unix() + h.interval
+		h.rolloverAt = time.Now().Truncate(time.Hour).Unix() + h.interval
 	case WhenDay: // roll at the top of the day
-		h.rolloverAt = time.Now().Truncate( 24 * time.Hour ).Unix() + h.interval
+		h.rolloverAt = time.Now().Truncate(24*time.Hour).Unix() + h.interval
 	default: // second and minute roll from create date
 		h.rolloverAt = fInfo.ModTime().Unix() + h.interval
 	}

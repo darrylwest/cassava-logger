@@ -60,11 +60,11 @@ You will find an example similar to this in "examples".  The log's filename is c
 * create config for reading and re-reading configurations
 * complete unit tests for 100% coverage
 * add travis tests
-
+* create test folder/package with data fixtures
 
 ## License: MIT
 
 Use as you wish.  Fork and help out if you can.
 
 - - -
-<em><small>Version 0.90.102 | darryl.west@raincitysoftware.com</small></em>
+<em><small>Version 0.90.104 | darryl.west@raincitysoftware.com</small></em>

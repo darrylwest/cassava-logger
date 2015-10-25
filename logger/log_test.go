@@ -17,7 +17,7 @@ func TestStdStreamLog(t *testing.T) {
 
 	s.Close()
 
-	SetLevel( TraceLevel )
+	SetLevel(TraceLevel)
 	Trace("type trace statement")
 	Debug("type debug statement")
 	Info("type info statement")
@@ -30,14 +30,14 @@ func TestStdStreamLog(t *testing.T) {
 func TestRotatingDayHandler(t *testing.T) {
 	Info("TestRotatingDayHanlder: test the file name and rolling based on time")
 	path := "./daytest"
-	os.RemoveAll( path )
+	os.RemoveAll(path)
 
 	os.Mkdir(path, 0777)
 	filename := path + "/test"
 
-	h, err := NewRotatingDayHandler( filename )
+	h, err := NewRotatingDayHandler(filename)
 	if err != nil {
-		t.Fatal( err )
+		t.Fatal(err)
 	}
 
 	Info("log basename: %s", h.baseName)
@@ -53,14 +53,14 @@ func TestRotatingDayHandler(t *testing.T) {
 	realFilename := h.CreateFilename()
 
 	Info("real filename: %s", realFilename)
-	finfo,_ := os.Stat( realFilename )
+	finfo, _ := os.Stat(realFilename)
 	Info("file: %v", finfo.Name())
 
 	h.Write([]byte("my first test\n"))
 	h.Write([]byte("my second test\n"))
 	h.Close()
 
-	os.RemoveAll( path )
+	os.RemoveAll(path)
 }
 
 func TestRotatingFileLog(t *testing.T) {

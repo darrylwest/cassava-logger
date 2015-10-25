@@ -22,11 +22,11 @@ func StatusHandler(w http.ResponseWriter, r *http.Request) {
 		"ts":      time.Now().UnixNano() / 1000000,
 		"version": "1.0",
 		"webStatus": map[string]interface{}{
-			"version":    "2015-10-21",
-			"pid":        os.Getpid(),
-			"host":       r.Host,
-			"path":       r.URL.Path,
-			"agent":      r.UserAgent(),
+			"version": "2015-10-21",
+			"pid":     os.Getpid(),
+			"host":    r.Host,
+			"path":    r.URL.Path,
+			"agent":   r.UserAgent(),
 		},
 	}
 
@@ -54,10 +54,10 @@ func startServer(context Context) {
 
 	server.UseHandler(mux)
 
-    p := fmt.Sprintf(":%d", context.port )
+	p := fmt.Sprintf(":%d", context.port)
 	context.lg.Info("starting server at port: %s", p)
 
-	server.Run( p )
+	server.Run(p)
 }
 
 func main() {
