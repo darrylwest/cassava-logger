@@ -52,7 +52,19 @@ You will find an example similar to this in "examples".  The log's filename is c
 	log.Error("my error")
 	
 	log.SetLevel( logger.DebugLevel )
-	log.Debug("this should show")	
+	log.Debug("this should show")
+	
+## Middleware
+
+Cassava logger may be used as middleware for negroni http-server like this:
+
+	handler,_ := logger.NewRotatingDayHandler( "./web-logger" )
+	log := logger.NewLogger( handler )
+	
+	server := negroni.New()
+	
+	server.Use(logger.NewMiddlewareLogger( log ))
+	...
 	
 ## To Do
 

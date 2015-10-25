@@ -2,6 +2,7 @@ package logger
 
 import (
 	"os"
+	"time"
 	"testing"
 )
 
@@ -47,7 +48,12 @@ func TestRotatingDayHandler(t *testing.T) {
 
 	Info("interval: %d", h.interval)
 	if h.interval != 86400 {
-		t.Fatal("intervali is incorrect")
+		t.Fatal("interval is incorrect")
+	}
+
+	Info("rollover at: %d", h.rolloverAt)
+	if time.Now().Unix() + (24 * 3600) <= h.rolloverAt {
+		t.Fatal("rollover time is incorrect")
 	}
 
 	realFilename := h.CreateFilename()
