@@ -1,4 +1,4 @@
-# cassava-logger
+# Cassava Logger
 
 A log4j-like logger with levels, multiple handlers and middleware implementation.  This implementation is optimized for rolling files suitable for services, middleware, etc.
 
@@ -11,6 +11,16 @@ go get github.com/darrylwest/cassava-logger/logger
 
 
 ## Simple Use
+
+There are instance and type methods (Trace, Debug, Info, Warn, Error, Fatal) that support simple stream logging to the console.  An example of type use would be:
+
+	logger.Info("this is a test...") 
+	// -> hh:mm:ss.SSS INFO filename:line this is a test...
+	
+	logger.Warn("this is a warning") 
+	// -> hh:mm:ss.SSS WARN filename:line this is a warning
+
+There are the same methods implemented on an instance, for example:
 
     import "github.com/darrylwest/cassava-logger/logger"
 
@@ -29,6 +39,8 @@ go get github.com/darrylwest/cassava-logger/logger
 
 ## Rolling File Logger
 
+There are multiple rolling file handlers to support rolling by size or time.  Times include second, minute, hour and day.  The rotating day handler is used in the logger middleware project.
+
 You will find an example similar to this in "examples".  The log's filename is changed to "day-logger.YYYY-MM-DD.log" and rotates daily.
 
 	handler,_ := logger.NewRotatingDayHandler( "./day-logger" )
@@ -42,6 +54,17 @@ You will find an example similar to this in "examples".  The log's filename is c
 	log.SetLevel( logger.DebugLevel )
 	log.Debug("this should show")	
 	
+## To Do
+
+* add categories to optionally replace file/line in log statements
+* create config for reading and re-reading configurations
+* complete unit tests for 100% coverage
+* add travis tests
+
+
+## License: MIT
+
+Use as you wish.  Fork and help out if you can.
 
 - - -
 <em><small>Version 0.90.102 | darryl.west@raincitysoftware.com</small></em>

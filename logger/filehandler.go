@@ -134,7 +134,7 @@ const (
 )
 
 func NewRotatingDayHandler(filename string) (*TimeRotatingFileHandler, error) {
-	return NewTimeRotatingFileHandler( filename, WhenDay, 1 )
+	return NewTimeRotatingFileHandler(filename, WhenDay, 1)
 }
 
 func NewTimeRotatingFileHandler(baseName string, when int8, interval int) (*TimeRotatingFileHandler, error) {
@@ -145,6 +145,7 @@ func NewTimeRotatingFileHandler(baseName string, when int8, interval int) (*Time
 
 	h.baseName = baseName
 
+	// based on unix time in seconds
 	switch when {
 	case WhenSecond:
 		h.interval = 1
@@ -175,7 +176,14 @@ func NewTimeRotatingFileHandler(baseName string, when int8, interval int) (*Time
 	}
 
 	fInfo, _ := h.fd.Stat()
-	h.rolloverAt = fInfo.ModTime().Unix() + h.interval
+	switch when {
+	case WhenHour: // roll at the top of the hour
+		h.rolloverAt = time.Now().Truncate( time.Hour ).Unix() + h.interval
+	case WhenDay: // roll at the top of the day
+		h.rolloverAt = time.Now().Truncate( 24 * time.Hour ).Unix() + h.interval
+	default: // second and minute roll from create date
+		h.rolloverAt = fInfo.ModTime().Unix() + h.interval
+	}
 
 	return h, nil
 }
