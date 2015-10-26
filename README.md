@@ -74,9 +74,9 @@ Cassava logger may be used as middleware for negroni http-server like this:
 * add travis tests
 * create test folder/package with data fixtures
 
-## License: MIT
+## License
 
-Use as you wish.  Fork and help out if you can.
+MIT Licensed.  See LICENSE file for details.  Use as you wish.  Fork and help out if you can.
 
 - - -
 <em><small>Version 0.90.105 | darryl.west@raincitysoftware.com</small></em>
