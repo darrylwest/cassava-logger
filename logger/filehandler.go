@@ -165,8 +165,6 @@ func NewTimeRotatingFileHandler(baseName string, when int8, interval int) (*Time
 
 	h.interval = h.interval * int64(interval)
 
-	// now := time.Now()
-	// filename := h.baseName + "." + now.Format(h.suffix) + ".log"
 	filename := h.CreateFilename()
 
 	var err error
@@ -193,14 +191,10 @@ func (h *TimeRotatingFileHandler) doRollover() {
 	now := time.Now()
 
 	if h.rolloverAt <= now.Unix() {
-		fName := h.CreateFilename()
 		h.fd.Close()
-		e := os.Rename(h.baseName, fName)
-		if e != nil {
-			panic(e)
-		}
 
-		h.fd, _ = os.OpenFile(h.baseName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		filename := h.CreateFilename()
+		h.fd, _ = os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 
 		h.rolloverAt = time.Now().Unix() + h.interval
 	}

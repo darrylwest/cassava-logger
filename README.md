@@ -79,4 +79,4 @@ Cassava logger may be used as middleware for negroni http-server like this:
 MIT Licensed.  See LICENSE file for details.  Use as you wish.  Fork and help out if you can.
 
 - - -
-<em><small>Version 0.90.105 | darryl.west@raincitysoftware.com</small></em>
+<em><small>Version 0.90.106 | darryl.west@raincitysoftware.com</small></em>
