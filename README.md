@@ -72,7 +72,7 @@ _Note: if the request URL/path equals "/ping" and the user agent is "heathcheck"
 
 ## To Do
 
-* add categories to optionally replace file/line in log statements
+* implement categories to optionally replace file/line in log statements
 * create config for reading and re-reading configurations
 * complete unit tests for 100% coverage
 * add travis tests
@@ -83,4 +83,4 @@ _Note: if the request URL/path equals "/ping" and the user agent is "heathcheck"
 MIT Licensed.  See LICENSE file for details.  Use as you wish.  Fork and help out if you can.
 
 - - -
-<em><small>Version 0.90.107 | darryl.west@raincitysoftware.com</small></em>
+<em><small>Version 0.90.108 | darryl.west@raincitysoftware.com</small></em>

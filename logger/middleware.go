@@ -15,7 +15,7 @@ func NewMiddlewareLogger(log *Logger) *MiddlewareLogger {
 	return &MiddlewareLogger{log, 0}
 }
 
-func Skip(path string, agent string) bool {
+func (m *MiddlewareLogger) Skip(path string, agent string) bool {
     if path == "/ping" && strings.Contains( strings.ToLower( agent ), "healthcheck" ) {
         return true
     }
@@ -28,7 +28,7 @@ func (m *MiddlewareLogger) ServeHTTP(rw http.ResponseWriter, req *http.Request, 
     m.count++
 
     // skip the load balancer health-check pings
-    if Skip( req.URL.Path, req.UserAgent() ) {
+    if m.Skip( req.URL.Path, req.UserAgent() ) {
         next(rw, req)
     } else {
         start := time.Now()

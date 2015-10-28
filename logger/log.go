@@ -9,9 +9,9 @@ import (
 	"time"
 )
 
-const Version = "0.90.107"
+const Version = "0.90.108"
 
-//log level, from low to high, more high means more serious
+// log level, from low to high, more high means more serious
 const (
 	TraceLevel = iota
 	DebugLevel
@@ -22,9 +22,10 @@ const (
 )
 
 const (
-	Ltime  = 1 << iota //time format "2006/01/02 15:04:05"
-	Lfile              //file.go:123
-	Llevel             //[Trace|Debug|Info...]
+	Ltime  = 1 << iota // show the time
+	Lfile              // show file/line file.go:123
+	Llevel             // show the level [Trace|Debug|Info...]
+    Lcategory          // show the category
 )
 
 var LevelName [6]string = [6]string{"TRACE", "DEBUG", "INFO ", "WARN ", "ERROR", "FATAL"}
@@ -36,6 +37,7 @@ const maxBufPoolSize = 16
 type Logger struct {
 	sync.Mutex
 
+    category string
 	level int
 	flag  int
 
@@ -47,7 +49,7 @@ type Logger struct {
 	bufs [][]byte
 }
 
-//new a logger with specified handler and flag
+// new a logger with specified handler and flag
 func New(handler Handler, flag int) *Logger {
 	var l = new(Logger)
 
@@ -123,13 +125,18 @@ func (l *Logger) Close() {
 	l.quit = nil
 }
 
-//set log level, any log level less than it will not log
+// set log level, any log level less than it will not log
 func (l *Logger) SetLevel(level int) {
 	l.level = level
 }
 
-//a low interface, maybe you can use it for your special log format
-//but it may be not exported later......
+// set the category name
+func (l *Logger) SetCategory(cat string) {
+    l.category = cat
+}
+
+// a low interface, maybe you can use it for your special log format
+// but it may be not exported later......
 func (l *Logger) Output(callDepth int, level int, format string, v ...interface{}) {
 	if l.level > level {
 		return
@@ -137,20 +144,23 @@ func (l *Logger) Output(callDepth int, level int, format string, v ...interface{
 
 	buf := l.popBuf()
 
-	if l.flag&Ltime > 0 {
+	if l.flag & Ltime > 0 {
 		now := time.Now().Format(TimeFormat)
-		// buf = append(buf, '[')
 		buf = append(buf, now...)
 		buf = append(buf, " "...)
 	}
 
-	if l.flag&Llevel > 0 {
-		// buf = append(buf, '[')
+	if l.flag & Llevel > 0 {
 		buf = append(buf, LevelName[level]...)
 		buf = append(buf, " "...)
 	}
 
-	if l.flag&Lfile > 0 {
+    if l.flag & Lcategory > 0 {
+		buf = append(buf, l.category...)
+		buf = append(buf, " "...)
+    }
+
+	if l.flag & Lfile > 0 {
 		_, file, line, ok := runtime.Caller(callDepth)
 		if !ok {
 			file = "???"
