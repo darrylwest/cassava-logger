@@ -105,3 +105,35 @@ func TestRotatingFileLog(t *testing.T) {
 
 	os.RemoveAll(path)
 }
+
+func TestMiddlewareSkip(t *testing.T) {
+	Info("TestMiddlewareSkip: test middleware logic to insure skip of /ping from health check")
+
+    path := "/ping"
+    agent := "ELB-HealthChecker/1.0"
+
+    skip := Skip( path, agent )
+
+    Info("path: %s, agent: %s, skip: %v", path, agent, skip)
+
+    if skip != true {
+        t.Fatal("should skip ping healthcheck")
+    }
+
+    path = "/index.html"
+    skip = Skip( path, agent )
+    Info("path: %s, agent: %s, skip: %v", path, agent, skip)
+
+    if skip == true {
+        t.Fatal("should not skip index healthcheck")
+    }
+
+    path = "/ping"
+    agent = "curl"
+    skip = Skip( path, agent )
+    Info("path: %s, agent: %s, skip: %v", path, agent, skip)
+
+    if skip == true {
+        t.Fatal("should not skip ping from curl")
+    }
+}

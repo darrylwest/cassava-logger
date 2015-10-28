@@ -66,6 +66,10 @@ Cassava logger may be used as middleware for negroni http-server like this:
 	server.Use(logger.NewMiddlewareLogger( log ))
 	...
 	
+All incoming requests log the requesting host, URL/path, agent and the time required to process the request.
+
+_Note: if the request URL/path equals "/ping" and the user agent is "heathcheck", the log statement is skipped.  This enables load balancers the ability to do health-checks without filling up log files._
+
 ## To Do
 
 * add categories to optionally replace file/line in log statements
@@ -79,4 +83,4 @@ Cassava logger may be used as middleware for negroni http-server like this:
 MIT Licensed.  See LICENSE file for details.  Use as you wish.  Fork and help out if you can.
 
 - - -
-<em><small>Version 0.90.106 | darryl.west@raincitysoftware.com</small></em>
+<em><small>Version 0.90.107 | darryl.west@raincitysoftware.com</small></em>

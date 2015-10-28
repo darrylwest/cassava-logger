@@ -3,6 +3,7 @@ package logger
 import (
 	"net/http"
 	"time"
+    "strings"
 )
 
 type MiddlewareLogger struct {
@@ -14,12 +15,27 @@ func NewMiddlewareLogger(log *Logger) *MiddlewareLogger {
 	return &MiddlewareLogger{log, 0}
 }
 
+func Skip(path string, agent string) bool {
+    if path == "/ping" && strings.Contains( strings.ToLower( agent ), "healthcheck" ) {
+        return true
+    }
+
+    return false
+}
+
 func (m *MiddlewareLogger) ServeHTTP(rw http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
-	start := time.Now()
-	m.count++
-	m.log.Info(">> %d %s %s %s %s", m.count, req.Method, req.Host, req.URL.Path, req.UserAgent())
+    // count every request
+    m.count++
 
-	next(rw, req)
+    // skip the load balancer health-check pings
+    if Skip( req.URL.Path, req.UserAgent() ) {
+        next(rw, req)
+    } else {
+        start := time.Now()
+        m.log.Info(">> %d %s %s %s %s", m.count, req.Method, req.Host, req.URL.Path, req.UserAgent())
 
-	m.log.Info("<< %d %v", m.count, time.Since(start))
+        next(rw, req)
+
+        m.log.Info("<< %d %v", m.count, time.Since(start))
+    }
 }
