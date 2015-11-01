@@ -23,6 +23,17 @@ func (m *MiddlewareLogger) Skip(path string, agent string) bool {
     return false
 }
 
+func (m *MiddlewareLogger) ParseRequestIP(req *http.Request) string {
+    ips := []string{ req.RemoteAddr }
+
+    forwarded := req.Header.Get("X-Forwarded-For")
+    if forwarded != ""  {
+        ips = append(ips, forwarded)
+    }
+
+    return strings.Join( ips, ", " )
+}
+
 func (m *MiddlewareLogger) ServeHTTP(rw http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
     // count every request
     m.count++
@@ -32,7 +43,8 @@ func (m *MiddlewareLogger) ServeHTTP(rw http.ResponseWriter, req *http.Request, 
         next(rw, req)
     } else {
         start := time.Now()
-        m.log.Info(">> %d %s %s %s %s", m.count, req.Method, req.Host, req.URL.Path, req.UserAgent())
+
+        m.log.Info(">> %d %s %s %s %s", m.count, req.Method, m.ParseRequestIP( req ), req.URL.Path, req.UserAgent())
 
         next(rw, req)
 
