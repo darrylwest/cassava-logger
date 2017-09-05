@@ -83,4 +83,4 @@ _Note: if the request URL/path equals "/ping" and the user agent is "heathcheck"
 MIT Licensed.  See LICENSE file for details.  Use as you wish.  Fork and help out if you can.
 
 - - -
-<em><small>Version 0.90.108 | darryl.west@raincitysoftware.com</small></em>
+<em><small>Version 17.9.5 | darryl.west@raincitysoftware.com</small></em>

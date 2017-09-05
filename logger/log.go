@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const Version = "0.90.108"
+const Version = "17.9.5"
 
 // log level, from low to high, more high means more serious
 const (
@@ -130,9 +130,19 @@ func (l *Logger) SetLevel(level int) {
 	l.level = level
 }
 
+// returns the current log level
+func (l *Logger) GetLevel() int {
+    return l.level
+}
+
 // set the category name
 func (l *Logger) SetCategory(cat string) {
     l.category = cat
+}
+
+// return the current logger category
+func (l *Logger) GetCategory() string {
+    return l.category
 }
 
 // a low interface, maybe you can use it for your special log format
