@@ -22,10 +22,10 @@ const (
 )
 
 const (
-	Ltime  = 1 << iota // show the time
-	Lfile              // show file/line file.go:123
-	Llevel             // show the level [Trace|Debug|Info...]
-    Lcategory          // show the category
+	Ltime     = 1 << iota // show the time
+	Lfile                 // show file/line file.go:123
+	Llevel                // show the level [Trace|Debug|Info...]
+	Lcategory             // show the category
 )
 
 var LevelName [6]string = [6]string{"TRACE", "DEBUG", "INFO ", "WARN ", "ERROR", "FATAL"}
@@ -37,9 +37,9 @@ const maxBufPoolSize = 16
 type Logger struct {
 	sync.Mutex
 
-    category string
-	level int
-	flag  int
+	category string
+	level    int
+	flag     int
 
 	handler Handler
 
@@ -132,17 +132,17 @@ func (l *Logger) SetLevel(level int) {
 
 // returns the current log level
 func (l *Logger) GetLevel() int {
-    return l.level
+	return l.level
 }
 
 // set the category name
 func (l *Logger) SetCategory(cat string) {
-    l.category = cat
+	l.category = cat
 }
 
 // return the current logger category
 func (l *Logger) GetCategory() string {
-    return l.category
+	return l.category
 }
 
 // a low interface, maybe you can use it for your special log format
@@ -154,23 +154,23 @@ func (l *Logger) Output(callDepth int, level int, format string, v ...interface{
 
 	buf := l.popBuf()
 
-	if l.flag & Ltime > 0 {
+	if l.flag&Ltime > 0 {
 		now := time.Now().Format(TimeFormat)
 		buf = append(buf, now...)
 		buf = append(buf, " "...)
 	}
 
-	if l.flag & Llevel > 0 {
+	if l.flag&Llevel > 0 {
 		buf = append(buf, LevelName[level]...)
 		buf = append(buf, " "...)
 	}
 
-    if l.flag & Lcategory > 0 {
+	if l.flag&Lcategory > 0 {
 		buf = append(buf, l.category...)
 		buf = append(buf, " "...)
-    }
+	}
 
-	if l.flag & Lfile > 0 {
+	if l.flag&Lfile > 0 {
 		_, file, line, ok := runtime.Caller(callDepth)
 		if !ok {
 			file = "???"

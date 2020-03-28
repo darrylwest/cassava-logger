@@ -2,8 +2,8 @@ package logger
 
 import (
 	"os"
-	"time"
 	"testing"
+	"time"
 )
 
 func TestStdStreamLog(t *testing.T) {
@@ -52,7 +52,7 @@ func TestRotatingDayHandler(t *testing.T) {
 	}
 
 	Info("rollover at: %d", h.rolloverAt)
-	if time.Now().Unix() + (24 * 3600) <= h.rolloverAt {
+	if time.Now().Unix()+(24*3600) <= h.rolloverAt {
 		t.Fatal("rollover time is incorrect")
 	}
 
@@ -110,35 +110,35 @@ func TestMiddlewareSkip(t *testing.T) {
 	Info("TestMiddlewareSkip: test middleware logic to insure skip of /ping from health check")
 
 	h, _ := NewStreamHandler(os.Stdout)
-    l := NewLogger( h )
-    m := NewMiddlewareLogger( l )
+	l := NewLogger(h)
+	m := NewMiddlewareLogger(l)
 
-    path := "/ping"
-    agent := "ELB-HealthChecker/1.0"
+	path := "/ping"
+	agent := "ELB-HealthChecker/1.0"
 
-    skip := m.Skip( path, agent )
+	skip := m.Skip(path, agent)
 
-    Info("path: %s, agent: %s, skip: %v", path, agent, skip)
+	Info("path: %s, agent: %s, skip: %v", path, agent, skip)
 
-    if skip != true {
-        t.Fatal("should skip ping healthcheck")
-    }
+	if skip != true {
+		t.Fatal("should skip ping healthcheck")
+	}
 
-    path = "/index.html"
-    skip = m.Skip( path, agent )
-    Info("path: %s, agent: %s, skip: %v", path, agent, skip)
+	path = "/index.html"
+	skip = m.Skip(path, agent)
+	Info("path: %s, agent: %s, skip: %v", path, agent, skip)
 
-    if skip == true {
-        t.Fatal("should not skip index healthcheck")
-    }
+	if skip == true {
+		t.Fatal("should not skip index healthcheck")
+	}
 
-    path = "/ping"
-    agent = "curl"
-    skip = m.Skip( path, agent )
-    Info("path: %s, agent: %s, skip: %v", path, agent, skip)
+	path = "/ping"
+	agent = "curl"
+	skip = m.Skip(path, agent)
+	Info("path: %s, agent: %s, skip: %v", path, agent, skip)
 
-    if skip == true {
-        t.Fatal("should not skip ping from curl")
-    }
+	if skip == true {
+		t.Fatal("should not skip ping from curl")
+	}
 
 }

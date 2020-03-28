@@ -2,8 +2,8 @@ package logger
 
 import (
 	"net/http"
+	"strings"
 	"time"
-    "strings"
 )
 
 type MiddlewareLogger struct {
@@ -16,38 +16,38 @@ func NewMiddlewareLogger(log *Logger) *MiddlewareLogger {
 }
 
 func (m *MiddlewareLogger) Skip(path string, agent string) bool {
-    if path == "/ping" && strings.Contains( strings.ToLower( agent ), "healthcheck" ) {
-        return true
-    }
+	if path == "/ping" && strings.Contains(strings.ToLower(agent), "healthcheck") {
+		return true
+	}
 
-    return false
+	return false
 }
 
 func (m *MiddlewareLogger) ParseRequestIP(req *http.Request) string {
-    ips := []string{ req.RemoteAddr }
+	ips := []string{req.RemoteAddr}
 
-    forwarded := req.Header.Get("X-Forwarded-For")
-    if forwarded != ""  {
-        ips = append(ips, forwarded)
-    }
+	forwarded := req.Header.Get("X-Forwarded-For")
+	if forwarded != "" {
+		ips = append(ips, forwarded)
+	}
 
-    return strings.Join( ips, ", " )
+	return strings.Join(ips, ", ")
 }
 
 func (m *MiddlewareLogger) ServeHTTP(rw http.ResponseWriter, req *http.Request, next http.HandlerFunc) {
-    // count every request
-    m.count++
+	// count every request
+	m.count++
 
-    // skip the load balancer health-check pings
-    if m.Skip( req.URL.Path, req.UserAgent() ) {
-        next(rw, req)
-    } else {
-        start := time.Now()
+	// skip the load balancer health-check pings
+	if m.Skip(req.URL.Path, req.UserAgent()) {
+		next(rw, req)
+	} else {
+		start := time.Now()
 
-        m.log.Info(">> %d %s %s %s %s", m.count, req.Method, m.ParseRequestIP( req ), req.URL.Path, req.UserAgent())
+		m.log.Info(">> %d %s %s %s %s", m.count, req.Method, m.ParseRequestIP(req), req.URL.Path, req.UserAgent())
 
-        next(rw, req)
+		next(rw, req)
 
-        m.log.Info("<< %d %v", m.count, time.Since(start))
-    }
+		m.log.Info("<< %d %v", m.count, time.Since(start))
+	}
 }
